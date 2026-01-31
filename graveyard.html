@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Graveyard | Fallen Animals</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-[#050505] text-white p-8 font-sans">
+    <div class="max-w-6xl mx-auto">
+        <a href="index.html" class="text-toxic font-black tracking-tighter text-sm">← RETURN TO ARENA</a>
+        
+        <div class="mt-12 mb-8 border-l-4 border-red-600 pl-6">
+            <h1 class="text-6xl font-black text-red-600 uppercase italic tracking-tighter">The Graveyard</h1>
+            <p class="text-gray-500 font-mono text-sm mt-2 uppercase">Elimination Log / Final Fates</p>
+        </div>
+
+        <div id="dead-list" class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4 opacity-70">
+            <!-- Fallen injected here -->
+        </div>
+    </div>
+
+    <script>
+        const fates = JSON.parse(localStorage.getItem('wildFates')) || {};
+        // PASTE THE FULL ANIMALS ARRAY FROM index.html HERE
+        const animals = ["Pangolin", "Flying Squirrel", /* ... paste the rest ... */ "Poison Dart Frog"];
+        
+        const list = document.getElementById('dead-list');
+        let deadFound = false;
+
+        animals.forEach((name, index) => {
+            const id = index + 1;
+            if (fates[id] === 'ELIMINATED') {
+                deadFound = true;
+                const item = document.createElement('div');
+                item.className = "border border-red-900/50 p-4 rounded bg-red-950/10 text-center";
+                item.innerHTML = `
+                    <span class="block text-[10px] font-mono text-red-500 mb-1">#${id.toString().padStart(3, '0')}</span>
+                    <span class="font-bold uppercase text-xs">${name}</span>
+                `;
+                list.appendChild(item);
+            }
+        });
+
+        if (!deadFound) {
+            list.innerHTML = "<p class='text-gray-600 italic'>No eliminations recorded yet...</p>";
+        }
+    </script>
+</body>
+</html>
